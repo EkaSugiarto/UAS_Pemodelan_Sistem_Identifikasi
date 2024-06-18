@@ -26,6 +26,21 @@ y_pred = predict(sys, data);
 % Extract the predicted output to the workspace
 y_predicted = y_pred.OutputData;
 
+% Calculate error metrics
+mae = mean(abs(y - y_predicted));
+mse = mean((y - y_predicted).^2);
+rmse = sqrt(mse);
+ss_total = sum((y - mean(y)).^2);
+ss_res = sum((y - y_predicted).^2);
+r2 = 1 - (ss_res / ss_total);
+
+% Display error metrics
+disp('Error Metrics:');
+fprintf('MAE: %.4f\n', mae);
+fprintf('MSE: %.4f\n', mse);
+fprintf('RMSE: %.4f\n', rmse);
+fprintf('R^2: %.4f\n', r2);
+
 % Prepare data for export to Excel
 T = table(out.Time, out.InputSignal, out.SystemResponse, y_predicted, 'VariableNames', {'Time', 'InputSignal', 'SystemResponse', 'ARMAX_Predicted'});
 
